@@ -1,0 +1,6 @@
+folium==0.14.0
+pandas==2.0.1
+geopandas==0.13.0
+requests==2.31.0
+flask==2.3.3
+Werkzeug==2.3.7

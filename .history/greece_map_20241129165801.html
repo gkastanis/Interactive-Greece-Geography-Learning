@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_3ac4208616955b41622633ac3231cc3d {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_3ac4208616955b41622633ac3231cc3d" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_3ac4208616955b41622633ac3231cc3d = L.map(
+                "map_3ac4208616955b41622633ac3231cc3d",
+                {
+                    center: [39.0742, 21.8243],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 7,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_210c06e02feb39118dbe530ed28fa14e = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_3ac4208616955b41622633ac3231cc3d);
+        
+    
+            var circle_marker_67b206b75d312791e0225a1355a46f7c = L.circleMarker(
+                [40.0859, 22.3583],
+                {"bubblingMouseEvents": true, "color": "brown", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "brown", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_3ac4208616955b41622633ac3231cc3d);
+        
+    
+        var popup_ff0c59dbcab83e2f8aae1668018919b4 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_18a173ae49be07702c4cc20c0ab2d351 = $(`<div id="html_18a173ae49be07702c4cc20c0ab2d351" style="width: 100.0%; height: 100.0%;">Mount Olympus (2917m)</div>`)[0];
+                popup_ff0c59dbcab83e2f8aae1668018919b4.setContent(html_18a173ae49be07702c4cc20c0ab2d351);
+            
+        
+
+        circle_marker_67b206b75d312791e0225a1355a46f7c.bindPopup(popup_ff0c59dbcab83e2f8aae1668018919b4)
+        ;
+
+        
+    
+    
+            var circle_marker_01b49c00932b63bd152c040709a0f641 = L.circleMarker(
+                [38.5333, 22.6167],
+                {"bubblingMouseEvents": true, "color": "brown", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "brown", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_3ac4208616955b41622633ac3231cc3d);
+        
+    
+        var popup_fb329dfaa8e5564426c8a1458e7f3cca = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_9bbdee9931e5690c3665df63d9333100 = $(`<div id="html_9bbdee9931e5690c3665df63d9333100" style="width: 100.0%; height: 100.0%;">Mount Parnassus (2457m)</div>`)[0];
+                popup_fb329dfaa8e5564426c8a1458e7f3cca.setContent(html_9bbdee9931e5690c3665df63d9333100);
+            
+        
+
+        circle_marker_01b49c00932b63bd152c040709a0f641.bindPopup(popup_fb329dfaa8e5564426c8a1458e7f3cca)
+        ;
+
+        
+    
+    
+            var circle_marker_3f5b31b9b848f0fa766568491e6c5429 = L.circleMarker(
+                [40.0875, 20.9167],
+                {"bubblingMouseEvents": true, "color": "brown", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "brown", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_3ac4208616955b41622633ac3231cc3d);
+        
+    
+        var popup_105970830418fddddaaf200dade5b139 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_e61c1f30997c0e5e99583b28426ab9be = $(`<div id="html_e61c1f30997c0e5e99583b28426ab9be" style="width: 100.0%; height: 100.0%;">Mount Smolikas (2637m)</div>`)[0];
+                popup_105970830418fddddaaf200dade5b139.setContent(html_e61c1f30997c0e5e99583b28426ab9be);
+            
+        
+
+        circle_marker_3f5b31b9b848f0fa766568491e6c5429.bindPopup(popup_105970830418fddddaaf200dade5b139)
+        ;
+
+        
+    
+    
+            var circle_marker_8e8569e861ba2fbd49044e8d3d5fe560 = L.circleMarker(
+                [35.2167, 24.7667],
+                {"bubblingMouseEvents": true, "color": "brown", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "brown", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_3ac4208616955b41622633ac3231cc3d);
+        
+    
+        var popup_478f34a60b7e965cdfbcb90db4b0d726 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_b79e661c7dccbb22c32138c5847c8767 = $(`<div id="html_b79e661c7dccbb22c32138c5847c8767" style="width: 100.0%; height: 100.0%;">Mount Ida (2456m)</div>`)[0];
+                popup_478f34a60b7e965cdfbcb90db4b0d726.setContent(html_b79e661c7dccbb22c32138c5847c8767);
+            
+        
+
+        circle_marker_8e8569e861ba2fbd49044e8d3d5fe560.bindPopup(popup_478f34a60b7e965cdfbcb90db4b0d726)
+        ;
+
+        
+    
+    
+            var circle_marker_05fdb376ceeec302524a6f5df485c405 = L.circleMarker(
+                [38.5667, 21.55],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_3ac4208616955b41622633ac3231cc3d);
+        
+    
+        var popup_ccd3c576760ba343c6150f87734db31c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_c5647e0a7de02e41e0369a9f7f62243f = $(`<div id="html_c5647e0a7de02e41e0369a9f7f62243f" style="width: 100.0%; height: 100.0%;">Lake Trichonida</div>`)[0];
+                popup_ccd3c576760ba343c6150f87734db31c.setContent(html_c5647e0a7de02e41e0369a9f7f62243f);
+            
+        
+
+        circle_marker_05fdb376ceeec302524a6f5df485c405.bindPopup(popup_ccd3c576760ba343c6150f87734db31c)
+        ;
+
+        
+    
+    
+            var circle_marker_19969fb7f195425ff4515a286bf3ddd1 = L.circleMarker(
+                [40.6833, 23.5833],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_3ac4208616955b41622633ac3231cc3d);
+        
+    
+        var popup_533efe3d57e6903d4864c740f482f9ff = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_fe203b6225b6f25c2cad71e0264612fd = $(`<div id="html_fe203b6225b6f25c2cad71e0264612fd" style="width: 100.0%; height: 100.0%;">Lake Volvi</div>`)[0];
+                popup_533efe3d57e6903d4864c740f482f9ff.setContent(html_fe203b6225b6f25c2cad71e0264612fd);
+            
+        
+
+        circle_marker_19969fb7f195425ff4515a286bf3ddd1.bindPopup(popup_533efe3d57e6903d4864c740f482f9ff)
+        ;
+
+        
+    
+    
+            var circle_marker_ad689df527da38958b1018c7fcfd8a0d = L.circleMarker(
+                [40.75, 21.0833],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_3ac4208616955b41622633ac3231cc3d);
+        
+    
+        var popup_8c9dc5d6d30397fba473ea67c107d1ee = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_c8a0d7587397b7e05d34c51d53b3de43 = $(`<div id="html_c8a0d7587397b7e05d34c51d53b3de43" style="width: 100.0%; height: 100.0%;">Lake Prespa</div>`)[0];
+                popup_8c9dc5d6d30397fba473ea67c107d1ee.setContent(html_c8a0d7587397b7e05d34c51d53b3de43);
+            
+        
+
+        circle_marker_ad689df527da38958b1018c7fcfd8a0d.bindPopup(popup_8c9dc5d6d30397fba473ea67c107d1ee)
+        ;
+
+        
+    
+    
+            var circle_marker_82673f9e8442fc52d521f3425b43f3e7 = L.circleMarker(
+                [39.2333, 21.7333],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_3ac4208616955b41622633ac3231cc3d);
+        
+    
+        var popup_d50ad68b55eec24516e4c089af81e4a4 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_90dfd7459c0ec7a6368d824adbd55e59 = $(`<div id="html_90dfd7459c0ec7a6368d824adbd55e59" style="width: 100.0%; height: 100.0%;">Lake Plastiras</div>`)[0];
+                popup_d50ad68b55eec24516e4c089af81e4a4.setContent(html_90dfd7459c0ec7a6368d824adbd55e59);
+            
+        
+
+        circle_marker_82673f9e8442fc52d521f3425b43f3e7.bindPopup(popup_d50ad68b55eec24516e4c089af81e4a4)
+        ;
+
+        
+    
+    
+            var poly_line_0254fb4ebba189b9f57bfadf19216875 = L.polyline(
+                [[40.45, 22.6], [40.5333, 21.7], [40.2833, 21.1833]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_3ac4208616955b41622633ac3231cc3d);
+        
+    
+        var popup_0e78296a933d77ab170f77f0906ea50b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_d022f09671a041deeb587b8c945267d1 = $(`<div id="html_d022f09671a041deeb587b8c945267d1" style="width: 100.0%; height: 100.0%;">Aliakmonas</div>`)[0];
+                popup_0e78296a933d77ab170f77f0906ea50b.setContent(html_d022f09671a041deeb587b8c945267d1);
+            
+        
+
+        poly_line_0254fb4ebba189b9f57bfadf19216875.bindPopup(popup_0e78296a933d77ab170f77f0906ea50b)
+        ;
+
+        
+    
+    
+            var poly_line_a12c9343b0ac216f35c297df74541a1d = L.polyline(
+                [[38.3333, 21.1], [39.15, 21.3833], [39.8167, 21.1833]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_3ac4208616955b41622633ac3231cc3d);
+        
+    
+        var popup_8bd1dee87d4fa6753d4c66aa8889cc69 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_bd685c33b41bc5ec696869db7896b4c7 = $(`<div id="html_bd685c33b41bc5ec696869db7896b4c7" style="width: 100.0%; height: 100.0%;">Achelous</div>`)[0];
+                popup_8bd1dee87d4fa6753d4c66aa8889cc69.setContent(html_bd685c33b41bc5ec696869db7896b4c7);
+            
+        
+
+        poly_line_a12c9343b0ac216f35c297df74541a1d.bindPopup(popup_8bd1dee87d4fa6753d4c66aa8889cc69)
+        ;
+
+        
+    
+    
+            var poly_line_07d329149c7db118a86b6410d252182d = L.polyline(
+                [[39.8667, 22.7], [39.75, 22.2], [39.6333, 21.6333]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_3ac4208616955b41622633ac3231cc3d);
+        
+    
+        var popup_635c13ebd1106ae9709ead3f12509935 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_3946e94e4a37a539c872c125acfe166d = $(`<div id="html_3946e94e4a37a539c872c125acfe166d" style="width: 100.0%; height: 100.0%;">Pinios</div>`)[0];
+                popup_635c13ebd1106ae9709ead3f12509935.setContent(html_3946e94e4a37a539c872c125acfe166d);
+            
+        
+
+        poly_line_07d329149c7db118a86b6410d252182d.bindPopup(popup_635c13ebd1106ae9709ead3f12509935)
+        ;
+
+        
+    
+    
+            var layer_control_194353c6ca1f6d63b13aaa0194102471 = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_210c06e02feb39118dbe530ed28fa14e,
+                },
+                overlays :  {
+                },
+            };
+            L.control.layers(
+                layer_control_194353c6ca1f6d63b13aaa0194102471.base_layers,
+                layer_control_194353c6ca1f6d63b13aaa0194102471.overlays,
+                {"autoZIndex": true, "collapsed": true, "position": "topright"}
+            ).addTo(map_3ac4208616955b41622633ac3231cc3d);
+        
+</script>
+</html>
