@@ -1,11 +1,11 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, send_from_directory
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', template_folder='.')
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return send_from_directory('.', 'index.html')
 
 @app.route('/static/<path:path>')
 def serve_static(path):
