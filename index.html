@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Γεωγραφία της Ελλάδας</title>
-    
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Interactive Greece Geography Learning" />
+    <link rel="manifest" href="site.webmanifest" />
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
@@ -22,18 +27,22 @@
           <button onclick="startExploreMode()" class="game-button explore">🗺️ Εξερεύνηση</button>
           <button onclick="showCategorySelection()" class="game-button quiz">🎮 Κουίζ</button>
       </div>
-      <div id="quiz-info" style="display: none;">
-          <p id="question"></p>
-          <p id="score">Σκορ: 0/0</p>
-          <p id="tries">Προσπάθειες: 3</p>
-      </div>
   </div>
-  
+
   <div id="category-selection" class="category-selection" style="display: none;">
+      <h2 class="category-question">Τι θέλεις να μάθεις;</h2>
       <button onclick="startQuiz('mountains')">🏔️ Βουνά</button>
       <button onclick="startQuiz('lakes')">💧 Λίμνες</button>
       <button onclick="startQuiz('rivers')">🌊 Ποτάμια</button>
   </div>
+
+  <div id="quiz-info" style="display: none;">
+      <h2 id="question" class="quiz-question"></h2>
+      <p id="hint" class="hint"></p>
+      <p id="score">Σκορ: 0/0</p>
+      <p id="tries">Προσπάθειες: 3</p>
+  </div>
+  
       <!-- Leaflet JS -->
       <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>

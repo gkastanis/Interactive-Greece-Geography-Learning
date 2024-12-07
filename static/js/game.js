@@ -78,7 +78,10 @@ function generateQuestion() {
     
     currentQuestion = {
         name: randomLocation,
-        coords: currentCategory === 'rivers' ? locationData[0] : [locationData[0], locationData[1]]
+        article: locationData.article,
+        coords: currentCategory === 'rivers' ? locationData.coordinates[0] : 
+                { latitude: locationData.latitude, longitude: locationData.longitude },
+        description: locationData.description
     };
     
     totalQuestions++;
@@ -87,7 +90,8 @@ function generateQuestion() {
 
 // Update question display
 function updateQuestionDisplay() {
-    document.getElementById('question').textContent = `Πού βρίσκεται το ${currentQuestion.name};`;
+    document.getElementById('question').textContent = `Πού βρίσκεται ${currentQuestion.article} ${currentQuestion.name};`;
+    document.getElementById('hint').textContent = currentQuestion.description;
     document.getElementById('score').textContent = `Σκορ: ${score}/${totalQuestions}`;
     document.getElementById('tries').textContent = `Προσπάθειες: ${tries}`;
 }
@@ -141,22 +145,40 @@ function startExploreMode() {
 function handleMapClick(lat, lng) {
     if (gameMode === 'quiz' && currentQuestion) {
         const distance = calculateDistance(lat, lng, 
-            currentQuestion.coords[0], 
-            currentQuestion.coords[1]
+            currentQuestion.coords.latitude, 
+            currentQuestion.coords.longitude
         );
         
         tries--;
         
-        if (distance < 50) { // Within 50km
+        if (distance < 10) { // Within 50km
             score++;
             showFeedback('Σωστά! 🎉', true);
         } else {
             if (tries <= 0) {
-                showFeedback(`Λάθος! Το ${currentQuestion.name} βρίσκεται αλλού.`, false);
+                // Get location data for popup
+                let locationData;
+                switch(currentCategory) {
+                    case 'mountains':
+                        locationData = mountains[currentQuestion.name];
+                        break;
+                    case 'lakes':
+                        locationData = lakes[currentQuestion.name];
+                        break;
+                    case 'rivers':
+                        locationData = rivers[currentQuestion.name];
+                        break;
+                }
+
+                showLocationOnMap(locationData, currentCategory);
+                showFeedback('Δυστυχώς δεν βρήκες τη σωστή τοποθεσία 😢', false);
+                setTimeout(generateQuestion, 3000);
             } else {
-                showFeedback(`Προσπάθησε ξανά! Απομένουν ${tries} προσπάθειες.`, false);
+                showFeedback(`Λάθος! Έχεις ακόμα ${tries} προσπάθειες.`, false);
             }
         }
+        
+        updateQuestionDisplay();
     }
 }
 

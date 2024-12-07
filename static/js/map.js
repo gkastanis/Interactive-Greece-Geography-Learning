@@ -38,7 +38,7 @@ function initMap() {
 }
 
 // Create a marker with custom popup
-function createMarker(name, coords, height, fact, category) {
+function createMarker(name, coords, locationData, category) {
     const marker = L.marker(coords, {
         category: category
     });
@@ -54,13 +54,39 @@ function createMarker(name, coords, height, fact, category) {
     });
     marker.setIcon(icon);
 
+    // Get emoji and category name based on type
+    const categoryInfo = {
+        mountains: { emoji: '🏔️', name: 'Βουνό', color: '#e74c3c' },
+        lakes: { emoji: '💧', name: 'Λίμνη', color: '#3498db' },
+        rivers: { emoji: '🌊', name: 'Ποταμός', color: '#2980b9' }
+    };
+
+    const { emoji, name: categoryName, color } = categoryInfo[category];
+
     // Create popup content
     const popupContent = `
         <div class="custom-popup">
-            <div class="popup-title">${name}</div>
+            <div class="popup-header" style="background-color: ${color}">
+                <div class="popup-category">${categoryName}</div>
+                <div class="popup-title">${emoji} ${name}</div>
+            </div>
             <div class="popup-content">
-                ${height ? `<p>Ύψος: ${height}μ</p>` : ''}
-                <div class="popup-fact">${fact}</div>
+                ${category === 'mountains' && locationData.elevation ? `
+                <div class="popup-stat">
+                    <div class="stat-label">Υψόμετρο</div>
+                    <div class="stat-value">${locationData.elevation}μ</div>
+                </div>
+                ` : ''}
+                <div class="popup-fact">
+                    <div class="fact-icon">💡</div>
+                    <div class="fact-text">${locationData.description}</div>
+                </div>
+                ${category === 'mountains' ? `
+                <div class="popup-stat">
+                    <div class="stat-label">Συντεταγμένες</div>
+                    <div class="stat-value">${coords[0].toFixed(4)}°, ${coords[1].toFixed(4)}°</div>
+                </div>
+                ` : ''}
             </div>
         </div>
     `;
@@ -87,86 +113,120 @@ function addMarkers() {
     lake_group.clearLayers();
     river_group.clearLayers();
 
-    if (gameMode === 'explore' || currentCategory === 'mountains') {
-        // Add mountain markers
-        for (const [name, data] of Object.entries(mountains)) {
-            const marker = createMarker(name, [data[0], data[1]], data[2], data[3], 'mountains');
+    // Add mountain markers if in explore mode or mountains quiz
+    if (gameMode === 'explore' || (gameMode === 'quiz' && currentCategory === 'mountains')) {
+        Object.entries(mountains).forEach(([name, data]) => {
+            const marker = createMarker(
+                name,
+                [data.latitude, data.longitude],
+                data,
+                'mountains'
+            );
             marker.addTo(mountain_group);
-        }
+        });
     }
 
-    if (gameMode === 'explore' || currentCategory === 'lakes') {
-        // Add lake markers
-        if (typeof lakes !== 'undefined') {
-            for (const [name, data] of Object.entries(lakes)) {
-                const marker = createMarker(name, [data[0], data[1]], null, data[2], 'lakes');
-                marker.addTo(lake_group);
-            }
-        }
+    // Add lake markers if in explore mode or lakes quiz
+    if (gameMode === 'explore' || (gameMode === 'quiz' && currentCategory === 'lakes')) {
+        Object.entries(lakes).forEach(([name, data]) => {
+            const marker = createMarker(
+                name,
+                [data.latitude, data.longitude],
+                data,
+                'lakes'
+            );
+            marker.addTo(lake_group);
+        });
     }
 
-    if (gameMode === 'explore' || currentCategory === 'rivers') {
-        // Add river markers
-        if (typeof rivers !== 'undefined') {
-            for (const [name, coords] of Object.entries(rivers)) {
-                // For rivers, we use the first coordinate pair as the marker location
-                const marker = createMarker(name, coords[0], null, 'Ποταμός της Ελλάδας', 'rivers');
-                marker.addTo(river_group);
+    // Add river markers if in explore mode or rivers quiz
+    if (gameMode === 'explore' || (gameMode === 'quiz' && currentCategory === 'rivers')) {
+        Object.entries(rivers).forEach(([name, data]) => {
+            // For rivers, use the first coordinate pair
+            const marker = createMarker(
+                name,
+                [data.coordinates[0].latitude, data.coordinates[0].longitude],
+                data,
+                'rivers'
+            );
+            marker.addTo(river_group);
+
+            // Draw river path if in explore mode
+            if (gameMode === 'explore') {
+                const path = L.polyline(
+                    data.coordinates.map(coord => [coord.latitude, coord.longitude]),
+                    { color: '#2980b9', weight: 3, opacity: 0.8 }
+                ).addTo(river_group);
             }
-        }
+        });
     }
 }
 
 // Show location on map with animation
-function showLocationOnMap(coords, popupContent) {
-    // First zoom out to show context
-    map.flyTo(coords, 7, {
+function showLocationOnMap(location, category) {
+    let coords;
+    let zoomLevel = 10;
+    
+    if (category === 'rivers') {
+        // For rivers, use the first coordinate
+        coords = [location.coordinates[0].latitude, location.coordinates[0].longitude];
+    } else {
+        coords = [location.latitude, location.longitude];
+    }
+
+    // Pan and zoom to location
+    map.setView(coords, zoomLevel, {
+        animate: true,
         duration: 1
     });
 
-    setTimeout(() => {
-        // Then zoom in closer to the location
-        map.flyTo(coords, 11, {
-            duration: 1.5
-        });
-        
-        // Create a temporary marker with star icon
-        const marker = L.marker(coords, {
-            icon: L.divIcon({
-                className: 'star-marker',
-                html: '⭐️',  // Using emoji with variation selector for better compatibility
-                iconSize: [48, 48],  // Made bigger
-                iconAnchor: [24, 24]
-            })
-        }).addTo(map);
+    // Get emoji and category name based on type
+    const categoryInfo = {
+        mountains: { emoji: '🏔️', name: 'Βουνό', color: '#e74c3c' },
+        lakes: { emoji: '💧', name: 'Λίμνη', color: '#3498db' },
+        rivers: { emoji: '🌊', name: 'Ποταμός', color: '#2980b9' }
+    };
 
-        // Show popup after zoom
-        setTimeout(() => {
-            marker.bindPopup(popupContent, {
-                maxWidth: 300,
-                className: 'educational-popup'
-            }).openPopup();
-        }, 1500);
+    const { emoji, name: categoryName, color } = categoryInfo[category];
 
-        // Remove marker after delay
-        setTimeout(() => {
-            marker.remove();
-            
-            // Add regular marker back
-            const regularMarker = createMarker(
-                currentQuestion.name,
-                coords,
-                currentCategory === 'mountains' ? locationData[2] : null,
-                currentCategory === 'rivers' ? 'Ποταμός της Ελλάδας' : locationData[currentCategory === 'mountains' ? 3 : 2],
-                currentCategory
-            ).addTo(map);
-            
-            // Remove regular marker after a short delay
-            setTimeout(() => {
-                regularMarker.remove();
-            }, 2000);
-        }, 5000);
-    }, 1000);
+    // Show popup with location info
+    const popupContent = `
+        <div class="custom-popup">
+            <div class="popup-header" style="background-color: ${color}">
+                <div class="popup-category">${categoryName}</div>
+                <div class="popup-title">${emoji} ${location.name || ''}</div>
+            </div>
+            <div class="popup-content">
+                ${category === 'mountains' && location.elevation ? `
+                <div class="popup-stat">
+                    <div class="stat-label">Υψόμετρο</div>
+                    <div class="stat-value">${location.elevation}μ</div>
+                </div>
+                ` : ''}
+                <div class="popup-fact">
+                    <div class="fact-icon">💡</div>
+                    <div class="fact-text">${location.description}</div>
+                </div>
+                ${category === 'mountains' ? `
+                <div class="popup-stat">
+                    <div class="stat-label">Συντεταγμένες</div>
+                    <div class="stat-value">${coords[0].toFixed(4)}°, ${coords[1].toFixed(4)}°</div>
+                </div>
+                ` : ''}
+            </div>
+        </div>
+    `;
+
+    // Create and open popup
+    L.popup({
+        closeButton: true,
+        closeOnClick: false,
+        autoClose: false,
+        className: 'custom-popup-wrapper'
+    })
+    .setLatLng(coords)
+    .setContent(popupContent)
+    .openOn(map);
 }
 
 // Wait for DOM and required scripts to load

@@ -4,7 +4,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Varela Round', sans-serif;
 }
 
 #map {
@@ -54,6 +54,7 @@ html, body {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    font-family: 'Varela Round', sans-serif;
 }
 
 .game-button:hover {
@@ -71,15 +72,44 @@ html, body {
 
 /* Quiz Info */
 #quiz-info {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 10px;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px 35px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 9999;
+    min-width: 300px;
+    border: 3px solid #4CAF50;
+    font-family: 'Varela Round', sans-serif;
+    animation: fadeSlideUp 0.4s ease-out;
 }
 
 #quiz-info p {
     margin: 5px 0;
     font-size: 14px;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.category-question {
+    color: #2c3e50;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.quiz-question {
+    color: #2c3e50;
+    font-size: 2.2em;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+    letter-spacing: 0.5px;
 }
 
 /* Category Selection */
@@ -106,6 +136,7 @@ html, body {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-family: 'Varela Round', sans-serif;
 }
 
 .category-selection button:hover {
@@ -113,69 +144,140 @@ html, body {
     box-shadow: 0 6px 15px rgba(0,0,0,0.3);
 }
 
-/* Popups */
+/* Custom Popup Styles */
 .custom-popup {
-    font-size: 16px;
-    border-radius: 15px;
-    padding: 10px;
-    background: white;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    min-width: 250px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.popup-header {
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+.popup-category {
+    text-transform: uppercase;
+    font-size: 1.2em;
+    font-weight: bold;
+    letter-spacing: 1px;
+    opacity: 0.9;
+    margin-bottom: 5px;
 }
 
 .popup-title {
-    font-size: 18px;
-    color: #1565c0;
+    font-size: 1.6em;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
 
 .popup-content {
-    color: #424242;
+    padding: 18px;
+    background: white;
+}
+
+.popup-stat {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.stat-label {
+    color: #566573;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.stat-value {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 1.05em;
 }
 
 .popup-fact {
-    font-style: italic;
-    color: #666;
-    margin-top: 5px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 15px;
+    padding: 15px;
+    background: #f0f4f8;
+    border-radius: 10px;
+    border-left: 4px solid #4CAF50;
+}
+
+.fact-icon {
+    font-size: 1.4em;
+    color: #4CAF50;
+    margin-top: 1px;
+}
+
+.fact-text {
+    color: #2c3e50;
+    line-height: 1.5;
+    flex: 1;
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+/* Make leaflet popup match our custom style */
+.leaflet-popup-content-wrapper {
+    padding: 0;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.leaflet-popup-content {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.leaflet-popup-tip {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16);
 }
 
 /* Feedback Messages */
 .feedback {
     position: fixed;
-    top: 50%;
+    top: 20px;
     left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px 40px;
-    border-radius: 20px;
-    font-size: 24px;
+    transform: translateX(-50%);
+    padding: 15px 30px;
+    border-radius: 12px;
+    color: white;
     font-weight: bold;
     z-index: 1000;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    animation: slideDown 0.3s ease-out, fadeOut 0.3s ease-in 1.7s;
 }
 
 .feedback.correct {
-    background: linear-gradient(145deg, #81c784, #4caf50);
-    color: white;
-    animation: celebrate 1s ease;
+    background-color: #4CAF50;
 }
 
 .feedback.incorrect {
-    background: linear-gradient(145deg, #ef5350, #e53935);
-    color: white;
-    animation: shake 0.5s ease;
-}
-
-#question {
-    font-size: 24px;
-    color: #1565c0;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-    animation: bounce 2s infinite;
+    background-color: #f44336;
 }
 
 #score, #tries {
-    font-size: 20px;
-    color: #2e7d32;
+    font-size: 1.4em;
     margin: 10px 0;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 600;
+}
+
+#score {
+    color: #4CAF50;
+}
+
+#tries {
+    color: #FF5722;
 }
 
 /* Location reveal animation */
@@ -221,6 +323,7 @@ html, body {
 .educational-popup .leaflet-popup-content {
     margin: 15px;
     font-size: 16px;
+    font-family: 'Varela Round', sans-serif;
 }
 
 /* Star marker animation */
@@ -249,26 +352,36 @@ html, body {
     z-index: 1000;  
 }
 
-/* Fun animations */
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-    40% {transform: translateY(-20px);}
-    60% {transform: translateY(-10px);}
+/* Keyframe Animations */
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
 }
 
-@keyframes celebrate {
-    0% {transform: scale(0.5) rotate(0deg);}
-    50% {transform: scale(1.2) rotate(180deg);}
-    100% {transform: scale(1) rotate(360deg);}
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
 }
 
-@keyframes shake {
-    0%, 100% {transform: translateX(0);}
-    25% {transform: translateX(-10px);}
-    75% {transform: translateX(10px);}
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
 }
