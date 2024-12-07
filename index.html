@@ -22,10 +22,13 @@
   <div id="map"></div>
     
   <div class="title-container">
-      <h1>Γεωγραφία της Ελλάδας</h1>
-      <div class="game-controls">
-          <button onclick="startExploreMode()" class="game-button explore">🗺️ Εξερεύνηση</button>
-          <button onclick="showCategorySelection()" class="game-button quiz">🎮 Κουίζ</button>
+      <button id="close-quiz" class="close-button" onclick="startExploreMode()" style="display: none;">✕</button>
+      <div id="main-content">
+          <h1>Γεωγραφία της Ελλάδας</h1>
+          <div class="game-controls">
+              <button onclick="startExploreMode()" class="game-button explore">🗺️ Εξερεύνηση</button>
+              <button onclick="showCategorySelection()" class="game-button quiz">🎮 Κουίζ</button>
+          </div>
       </div>
   </div>
 

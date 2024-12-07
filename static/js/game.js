@@ -48,6 +48,8 @@ function startQuiz(category) {
     currentCategory = category;
     document.getElementById('category-selection').style.display = 'none';
     document.getElementById('quiz-info').style.display = 'block';
+    document.getElementById('main-content').style.display = 'none';
+    document.getElementById('close-quiz').style.display = 'block';
     
     gameMode = 'quiz';
     score = 0;
@@ -169,11 +171,14 @@ function showFeedback(message, isCorrect) {
 
 // Start explore mode
 function startExploreMode() {
-    gameMode = 'explore';
     document.getElementById('quiz-info').style.display = 'none';
     document.getElementById('category-selection').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    document.getElementById('close-quiz').style.display = 'none';
     
-    // Show all markers
+    gameMode = 'explore';
+    currentCategory = null;
+    map.closePopup();
     addMarkers();
 }
 
