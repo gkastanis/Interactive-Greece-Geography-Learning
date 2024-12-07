@@ -5,6 +5,7 @@ let currentCategory = null;
 let score = 0;
 let totalQuestions = 0;
 let tries = 3;
+let answeredQuestions = new Set(); // Track correctly answered questions
 
 // Initialize sound effects
 const correctSound = new Audio('/static/sounds/correct.wav');
@@ -51,6 +52,7 @@ function startQuiz(category) {
     score = 0;
     totalQuestions = 0;
     tries = 3;
+    answeredQuestions.clear(); // Reset answered questions when starting new quiz
     
     // Update markers to show only current category
     addMarkers();
@@ -73,7 +75,20 @@ function generateQuestion() {
     }
     
     const locationNames = Object.keys(data);
-    const randomLocation = locationNames[Math.floor(Math.random() * locationNames.length)];
+    const availableLocations = locationNames.filter(name => !answeredQuestions.has(name));
+    
+    // If all questions have been answered correctly, end the quiz or restart
+    if (availableLocations.length === 0) {
+        showFeedback('🎉 Συγχαρητήρια! Απάντησες σωστά σε όλες τις ερωτήσεις!', true);
+        setTimeout(() => {
+            startExploreMode();
+            document.getElementById('quiz-info').style.display = 'none';
+            document.getElementById('category-selection').style.display = 'block';
+        }, 2000);
+        return;
+    }
+    
+    const randomLocation = availableLocations[Math.floor(Math.random() * availableLocations.length)];
     const locationData = data[randomLocation];
     
     currentQuestion = {
@@ -143,43 +158,65 @@ function startExploreMode() {
 
 // Handle map click in quiz mode
 function handleMapClick(lat, lng) {
-    if (gameMode === 'quiz' && currentQuestion) {
-        const distance = calculateDistance(lat, lng, 
-            currentQuestion.coords.latitude, 
-            currentQuestion.coords.longitude
-        );
-        
+    if (gameMode !== 'quiz' || !currentQuestion) return;
+    
+    const distance = calculateDistance(
+        lat, 
+        lng, 
+        currentQuestion.coords.latitude, 
+        currentQuestion.coords.longitude
+    );
+    
+    if (distance <= 50) { // Within 50km radius
+        showFeedback(getRandomMessage(correctMessages), true);
+        score++;
+        answeredQuestions.add(currentQuestion.name); // Add to correctly answered questions
+        setTimeout(generateQuestion, 2000);
+    } else {
+        showFeedback(getRandomMessage(incorrectMessages), false);
         tries--;
         
-        if (distance < 10) { // Within 50km
-            score++;
-            showFeedback('Σωστά! 🎉', true);
-        } else {
-            if (tries <= 0) {
-                // Get location data for popup
-                let locationData;
-                switch(currentCategory) {
-                    case 'mountains':
-                        locationData = mountains[currentQuestion.name];
-                        break;
-                    case 'lakes':
-                        locationData = lakes[currentQuestion.name];
-                        break;
-                    case 'rivers':
-                        locationData = rivers[currentQuestion.name];
-                        break;
-                }
-
-                showLocationOnMap(locationData, currentCategory);
-                showFeedback('Δυστυχώς δεν βρήκες τη σωστή τοποθεσία 😢', false);
-                setTimeout(generateQuestion, 3000);
-            } else {
-                showFeedback(`Λάθος! Έχεις ακόμα ${tries} προσπάθειες.`, false);
+        if (tries <= 0) {
+            // Get location data for popup
+            let locationData;
+            switch(currentCategory) {
+                case 'mountains':
+                    locationData = mountains[currentQuestion.name];
+                    break;
+                case 'lakes':
+                    locationData = lakes[currentQuestion.name];
+                    break;
+                case 'rivers':
+                    locationData = rivers[currentQuestion.name];
+                    break;
             }
+
+            // Add the name to the location data
+            locationData = {
+                ...locationData,
+                name: currentQuestion.name
+            };
+
+            showLocationOnMap(locationData, currentCategory);
+            showFeedback('Δυστυχώς δεν βρήκες τη σωστή τοποθεσία 😢', false);
+            
+            // Zoom out after 5 seconds
+            setTimeout(() => {
+                map.setView([39.0742, 21.8243], 7, {
+                    animate: true,
+                    duration: 1
+                });
+                map.closePopup();
+            }, 5000);
+            
+            // Generate new question after zooming out
+            setTimeout(() => {
+                generateQuestion();
+                tries = 3;
+            }, 5500);
         }
-        
-        updateQuestionDisplay();
     }
+    updateQuestionDisplay();
 }
 
 // Calculate distance between two points in kilometers

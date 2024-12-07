@@ -38,17 +38,18 @@ function initMap() {
 }
 
 // Create a marker with custom popup
-function createMarker(name, coords, locationData, category) {
+function createMarker(name, coords, locationData, category, isAnswered = false) {
     const marker = L.marker(coords, {
         category: category
     });
 
-    // Set icon based on category
+    // Set icon based on category and answered status
     let icon = L.AwesomeMarkers.icon({
         icon: category === 'mountains' ? 'mountain' : 
               category === 'lakes' ? 'water' : 'tint',
-        markerColor: category === 'mountains' ? 'darkred' : 
-                     category === 'lakes' ? 'blue' : 'cadetblue',
+        markerColor: isAnswered ? 'green' : 
+                    (category === 'mountains' ? 'darkred' : 
+                     category === 'lakes' ? 'blue' : 'cadetblue'),
         prefix: 'fa',
         iconColor: 'white'
     });
@@ -113,53 +114,77 @@ function addMarkers() {
     lake_group.clearLayers();
     river_group.clearLayers();
 
-    // Add mountain markers if in explore mode or mountains quiz
-    if (gameMode === 'explore' || (gameMode === 'quiz' && currentCategory === 'mountains')) {
-        Object.entries(mountains).forEach(([name, data]) => {
-            const marker = createMarker(
-                name,
-                [data.latitude, data.longitude],
-                data,
-                'mountains'
-            );
-            marker.addTo(mountain_group);
+    // Only show markers for current category in quiz mode
+    if (gameMode === 'quiz' && currentCategory) {
+        let data;
+        let group;
+        
+        switch(currentCategory) {
+            case 'mountains':
+                data = mountains;
+                group = mountain_group;
+                break;
+            case 'lakes':
+                data = lakes;
+                group = lake_group;
+                break;
+            case 'rivers':
+                data = rivers;
+                group = river_group;
+                break;
+        }
+
+        Object.entries(data).forEach(([name, locationData]) => {
+            const coords = currentCategory === 'rivers' ? 
+                [locationData.coordinates[0].latitude, locationData.coordinates[0].longitude] : 
+                [locationData.latitude, locationData.longitude];
+            
+            const isAnswered = answeredQuestions.has(name);
+            const marker = createMarker(name, coords, locationData, currentCategory, isAnswered);
+            marker.addTo(group);
         });
+        return;
     }
 
-    // Add lake markers if in explore mode or lakes quiz
-    if (gameMode === 'explore' || (gameMode === 'quiz' && currentCategory === 'lakes')) {
-        Object.entries(lakes).forEach(([name, data]) => {
-            const marker = createMarker(
-                name,
-                [data.latitude, data.longitude],
-                data,
-                'lakes'
-            );
-            marker.addTo(lake_group);
-        });
-    }
+    // Add mountain markers in explore mode
+    Object.entries(mountains).forEach(([name, mountain]) => {
+        const marker = createMarker(
+            name, 
+            [mountain.latitude, mountain.longitude],
+            mountain,
+            'mountains'
+        );
+        marker.addTo(mountain_group);
+    });
 
-    // Add river markers if in explore mode or rivers quiz
-    if (gameMode === 'explore' || (gameMode === 'quiz' && currentCategory === 'rivers')) {
-        Object.entries(rivers).forEach(([name, data]) => {
-            // For rivers, use the first coordinate pair
-            const marker = createMarker(
-                name,
-                [data.coordinates[0].latitude, data.coordinates[0].longitude],
-                data,
-                'rivers'
-            );
-            marker.addTo(river_group);
+    // Add lake markers in explore mode
+    Object.entries(lakes).forEach(([name, lake]) => {
+        const marker = createMarker(
+            name,
+            [lake.latitude, lake.longitude],
+            lake,
+            'lakes'
+        );
+        marker.addTo(lake_group);
+    });
 
-            // Draw river path if in explore mode
-            if (gameMode === 'explore') {
-                const path = L.polyline(
-                    data.coordinates.map(coord => [coord.latitude, coord.longitude]),
-                    { color: '#2980b9', weight: 3, opacity: 0.8 }
-                ).addTo(river_group);
-            }
-        });
-    }
+    // Add river markers and paths in explore mode
+    Object.entries(rivers).forEach(([name, river]) => {
+        // Add marker at the start of the river
+        const marker = createMarker(
+            name,
+            [river.coordinates[0].latitude, river.coordinates[0].longitude],
+            river,
+            'rivers'
+        );
+        marker.addTo(river_group);
+
+        // Draw river path in explore mode
+        const path = L.polyline(
+            river.coordinates.map(coord => [coord.latitude, coord.longitude]),
+            { color: '#2980b9', weight: 3, opacity: 0.8 }
+        ).addTo(river_group);
+    });
 }
 
 // Show location on map with animation
