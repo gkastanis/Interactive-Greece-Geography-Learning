@@ -244,13 +244,6 @@ const mountains = {
         elevation: 1940,
         description: 'Βουνό της Αρκαδίας'
     },
-    'Αϊνίνη': {
-        article: 'η',
-        latitude: 39.0667,
-        longitude: 21.6333,
-        elevation: 1864,
-        description: 'Βουνό της Ευρυτανίας'
-    },
     'Βαρδούσια': {
         article: 'η',
         latitude: 38.7167,
@@ -271,13 +264,6 @@ const mountains = {
         longitude: 20.8833,
         elevation: 2520,
         description: 'Στα σύνορα με την Αλβανία'
-    },
-    'Λύκος': {
-        article: 'ο',
-        latitude: 39.0667,
-        longitude: 21.6333,
-        elevation: 2234,
-        description: 'Βουνό της Ευρυτανίας'
     },
     'Οίτη': {
         article: 'η',

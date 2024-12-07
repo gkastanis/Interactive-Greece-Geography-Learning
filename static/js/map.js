@@ -44,12 +44,20 @@ function createMarker(name, coords, locationData, category, isAnswered = false) 
     });
 
     // Set icon based on category and answered status
+    let markerColor;
+    if (correctAnswersNeeded[name] === 0) {
+        markerColor = 'green'; // Fully completed (answered correctly twice)
+    } else if (correctAnswersNeeded[name] === 1) {
+        markerColor = 'orange'; // Answered once correctly
+    } else {
+        markerColor = category === 'mountains' ? 'darkred' : 
+                      category === 'lakes' ? 'blue' : 'cadetblue';
+    }
+
     let icon = L.AwesomeMarkers.icon({
         icon: category === 'mountains' ? 'mountain' : 
               category === 'lakes' ? 'water' : 'tint',
-        markerColor: isAnswered ? 'green' : 
-                    (category === 'mountains' ? 'darkred' : 
-                     category === 'lakes' ? 'blue' : 'cadetblue'),
+        markerColor: markerColor,
         prefix: 'fa',
         iconColor: 'white'
     });

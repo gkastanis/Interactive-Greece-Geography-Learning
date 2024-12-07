@@ -6,6 +6,7 @@ let score = 0;
 let totalQuestions = 0;
 let tries = 3;
 let answeredQuestions = new Set(); // Track correctly answered questions
+let correctAnswersNeeded = {}; // Track how many times each location needs to be answered correctly
 
 // Initialize sound effects
 const correctSound = new Audio('/static/sounds/correct.wav');
@@ -52,7 +53,25 @@ function startQuiz(category) {
     score = 0;
     totalQuestions = 0;
     tries = 3;
-    answeredQuestions.clear(); // Reset answered questions when starting new quiz
+    answeredQuestions.clear();
+    
+    // Initialize correctAnswersNeeded for each location
+    let data;
+    switch(category) {
+        case 'mountains':
+            data = mountains;
+            break;
+        case 'lakes':
+            data = lakes;
+            break;
+        case 'rivers':
+            data = rivers;
+            break;
+    }
+    correctAnswersNeeded = {};
+    Object.keys(data).forEach(name => {
+        correctAnswersNeeded[name] = 2; // Each location needs to be answered correctly twice
+    });
     
     // Update markers to show only current category
     addMarkers();
@@ -75,16 +94,17 @@ function generateQuestion() {
     }
     
     const locationNames = Object.keys(data);
-    const availableLocations = locationNames.filter(name => !answeredQuestions.has(name));
+    // Filter locations that still need correct answers
+    const availableLocations = locationNames.filter(name => correctAnswersNeeded[name] > 0);
     
-    // If all questions have been answered correctly, end the quiz or restart
+    // If all locations have been answered correctly twice, end the quiz
     if (availableLocations.length === 0) {
-        showFeedback('🎉 Συγχαρητήρια! Απάντησες σωστά σε όλες τις ερωτήσεις!', true);
+        showFeedback('🎉 Συγχαρητήρια! Απάντησες σωστά σε όλες τις ερωτήσεις δύο φορές!', true);
         setTimeout(() => {
             startExploreMode();
             document.getElementById('quiz-info').style.display = 'none';
             document.getElementById('category-selection').style.display = 'block';
-        }, 2000);
+        }, 3000);
         return;
     }
     
@@ -101,6 +121,7 @@ function generateQuestion() {
     
     totalQuestions++;
     updateQuestionDisplay();
+    addMarkers(); // Update markers to show current progress
 }
 
 // Update question display
@@ -170,14 +191,17 @@ function handleMapClick(lat, lng) {
     if (distance <= 50) { // Within 50km radius
         showFeedback(getRandomMessage(correctMessages), true);
         score++;
-        answeredQuestions.add(currentQuestion.name); // Add to correctly answered questions
-        setTimeout(generateQuestion, 2000);
+        correctAnswersNeeded[currentQuestion.name]--; // Decrease needed correct answers
+        answeredQuestions.add(currentQuestion.name);
+        setTimeout(() => {
+            generateQuestion();
+            addMarkers(); // Update markers after correct answer
+        }, 2000);
     } else {
         showFeedback(getRandomMessage(incorrectMessages), false);
         tries--;
         
         if (tries <= 0) {
-            // Get location data for popup
             let locationData;
             switch(currentCategory) {
                 case 'mountains':
@@ -190,8 +214,7 @@ function handleMapClick(lat, lng) {
                     locationData = rivers[currentQuestion.name];
                     break;
             }
-
-            // Add the name to the location data
+            
             locationData = {
                 ...locationData,
                 name: currentQuestion.name
@@ -200,7 +223,6 @@ function handleMapClick(lat, lng) {
             showLocationOnMap(locationData, currentCategory);
             showFeedback('Δυστυχώς δεν βρήκες τη σωστή τοποθεσία 😢', false);
             
-            // Zoom out after 5 seconds
             setTimeout(() => {
                 map.setView([39.0742, 21.8243], 7, {
                     animate: true,
@@ -209,7 +231,6 @@ function handleMapClick(lat, lng) {
                 map.closePopup();
             }, 5000);
             
-            // Generate new question after zooming out
             setTimeout(() => {
                 generateQuestion();
                 tries = 3;
