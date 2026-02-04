@@ -9,8 +9,8 @@ let answeredQuestions = new Set(); // Track correctly answered questions
 let correctAnswersNeeded = {}; // Track how many times each location needs to be answered correctly
 
 // Initialize sound effects
-const correctSound = new Audio('/static/sounds/correct.wav');
-const incorrectSound = new Audio('/static/sounds/incorrect.mp3');
+const correctSound = new Audio('static/sounds/correct.wav');
+const incorrectSound = new Audio('static/sounds/incorrect.mp3');
 
 // Preload sounds
 correctSound.load();
