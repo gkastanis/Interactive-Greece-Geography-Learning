@@ -69,6 +69,21 @@ function startQuiz(category) {
         case 'rivers':
             data = rivers;
             break;
+        case 'peninsulas':
+            data = peninsulas;
+            break;
+        case 'gulfs':
+            data = gulfs;
+            break;
+        case 'capes':
+            data = capes;
+            break;
+        case 'straits':
+            data = straits;
+            break;
+        case 'isthmus':
+            data = isthmus;
+            break;
     }
     correctAnswersNeeded = {};
     Object.keys(data).forEach(name => {
@@ -93,8 +108,23 @@ function generateQuestion() {
         case 'rivers':
             data = rivers;
             break;
+        case 'peninsulas':
+            data = peninsulas;
+            break;
+        case 'gulfs':
+            data = gulfs;
+            break;
+        case 'capes':
+            data = capes;
+            break;
+        case 'straits':
+            data = straits;
+            break;
+        case 'isthmus':
+            data = isthmus;
+            break;
     }
-    
+
     const locationNames = Object.keys(data);
     // Filter locations that still need correct answers
     const availableLocations = locationNames.filter(name => correctAnswersNeeded[name] > 0);
@@ -173,13 +203,53 @@ function showFeedback(message, isCorrect) {
 function startExploreMode() {
     document.getElementById('quiz-info').style.display = 'none';
     document.getElementById('category-selection').style.display = 'none';
-    document.getElementById('main-content').style.display = 'block';
+    document.getElementById('main-content').style.display = 'none';
     document.getElementById('close-quiz').style.display = 'none';
-    
+    document.querySelector('.title-container').style.display = 'none';
+    document.getElementById('explore-panel').style.display = 'block';
+
+    // Reset all toggles to checked
+    document.querySelectorAll('.explore-filters input[type="checkbox"]').forEach(cb => {
+        cb.checked = true;
+    });
+
     gameMode = 'explore';
     currentCategory = null;
     map.closePopup();
     addMarkers();
+}
+
+// Exit explore mode and return to home
+function exitExploreMode() {
+    document.getElementById('explore-panel').style.display = 'none';
+    document.querySelector('.title-container').style.display = 'block';
+    document.getElementById('main-content').style.display = 'block';
+
+    gameMode = 'explore';
+    map.closePopup();
+}
+
+// Toggle category visibility in explore mode
+function toggleCategory(category) {
+    const groups = {
+        mountains: mountain_group,
+        lakes: lake_group,
+        rivers: river_group,
+        peninsulas: peninsula_group,
+        gulfs: gulf_group,
+        capes: cape_group,
+        straits: strait_group,
+        isthmus: isthmus_group
+    };
+
+    const group = groups[category];
+    const checkbox = document.getElementById('toggle-' + category);
+
+    if (checkbox.checked) {
+        map.addLayer(group);
+    } else {
+        map.removeLayer(group);
+    }
 }
 
 // Handle map click in quiz mode
@@ -218,8 +288,23 @@ function handleMapClick(lat, lng) {
                 case 'rivers':
                     locationData = rivers[currentQuestion.name];
                     break;
+                case 'peninsulas':
+                    locationData = peninsulas[currentQuestion.name];
+                    break;
+                case 'gulfs':
+                    locationData = gulfs[currentQuestion.name];
+                    break;
+                case 'capes':
+                    locationData = capes[currentQuestion.name];
+                    break;
+                case 'straits':
+                    locationData = straits[currentQuestion.name];
+                    break;
+                case 'isthmus':
+                    locationData = isthmus[currentQuestion.name];
+                    break;
             }
-            
+
             locationData = {
                 ...locationData,
                 name: currentQuestion.name

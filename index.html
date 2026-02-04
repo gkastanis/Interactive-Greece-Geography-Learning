@@ -34,9 +34,26 @@
 
   <div id="category-selection" class="category-selection" style="display: none;">
       <h2 class="category-question">Τι θέλεις να μάθεις;</h2>
-      <button onclick="startQuiz('mountains')">🏔️ Βουνά</button>
-      <button onclick="startQuiz('lakes')">💧 Λίμνες</button>
-      <button onclick="startQuiz('rivers')">🌊 Ποτάμια</button>
+
+      <div class="category-group">
+          <h3>Χερσαία</h3>
+          <button onclick="startQuiz('mountains')">🏔️ Βουνά</button>
+      </div>
+
+      <div class="category-group">
+          <h3>Υδάτινα</h3>
+          <button onclick="startQuiz('lakes')">💧 Λίμνες</button>
+          <button onclick="startQuiz('rivers')">🌊 Ποτάμια</button>
+      </div>
+
+      <div class="category-group">
+          <h3>Ακτές</h3>
+          <button onclick="startQuiz('peninsulas')">🗺️ Χερσόνησοι</button>
+          <button onclick="startQuiz('gulfs')">🌊 Κόλποι</button>
+          <button onclick="startQuiz('capes')">📍 Ακρωτήρια</button>
+          <button onclick="startQuiz('straits')">↔️ Πορθμοί</button>
+          <button onclick="startQuiz('isthmus')">🔗 Ισθμός</button>
+      </div>
   </div>
 
   <div id="quiz-info" style="display: none;">
@@ -44,6 +61,56 @@
       <p id="hint" class="hint"></p>
       <p id="score">Σκορ: 0/0</p>
       <p id="tries">Προσπάθειες: 3</p>
+  </div>
+
+  <div id="explore-panel" class="explore-panel" style="display: none;">
+      <div class="explore-header">
+          <h3>🗺️ Εξερεύνηση</h3>
+          <button class="explore-close" onclick="exitExploreMode()">✕</button>
+      </div>
+      <div class="explore-filters">
+          <div class="filter-group">
+              <h4>Χερσαία</h4>
+              <label class="filter-toggle">
+                  <input type="checkbox" checked onchange="toggleCategory('mountains')" id="toggle-mountains">
+                  <span class="toggle-label">🏔️ Βουνά</span>
+              </label>
+          </div>
+          <div class="filter-group">
+              <h4>Υδάτινα</h4>
+              <label class="filter-toggle">
+                  <input type="checkbox" checked onchange="toggleCategory('lakes')" id="toggle-lakes">
+                  <span class="toggle-label">💧 Λίμνες</span>
+              </label>
+              <label class="filter-toggle">
+                  <input type="checkbox" checked onchange="toggleCategory('rivers')" id="toggle-rivers">
+                  <span class="toggle-label">🌊 Ποτάμια</span>
+              </label>
+          </div>
+          <div class="filter-group">
+              <h4>Ακτές</h4>
+              <label class="filter-toggle">
+                  <input type="checkbox" checked onchange="toggleCategory('peninsulas')" id="toggle-peninsulas">
+                  <span class="toggle-label">🗺️ Χερσόνησοι</span>
+              </label>
+              <label class="filter-toggle">
+                  <input type="checkbox" checked onchange="toggleCategory('gulfs')" id="toggle-gulfs">
+                  <span class="toggle-label">🌊 Κόλποι</span>
+              </label>
+              <label class="filter-toggle">
+                  <input type="checkbox" checked onchange="toggleCategory('capes')" id="toggle-capes">
+                  <span class="toggle-label">📍 Ακρωτήρια</span>
+              </label>
+              <label class="filter-toggle">
+                  <input type="checkbox" checked onchange="toggleCategory('straits')" id="toggle-straits">
+                  <span class="toggle-label">↔️ Πορθμοί</span>
+              </label>
+              <label class="filter-toggle">
+                  <input type="checkbox" checked onchange="toggleCategory('isthmus')" id="toggle-isthmus">
+                  <span class="toggle-label">🔗 Ισθμός</span>
+              </label>
+          </div>
+      </div>
   </div>
   
       <!-- Leaflet JS -->

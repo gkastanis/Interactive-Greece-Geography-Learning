@@ -595,8 +595,191 @@ const rivers = {
     }
 };
 
+// Coastal Geography - 5th Grade
+const peninsulas = {
+    'Χερσόνησος Σιθωνίας': {
+        article: 'η',
+        latitude: 40.05,
+        longitude: 23.85,
+        description: 'Η μεσαία χερσόνησος της Χαλκιδικής'
+    },
+    'Χερσόνησος Κασσάνδρας': {
+        article: 'η',
+        latitude: 39.95,
+        longitude: 23.45,
+        description: 'Η δυτική χερσόνησος της Χαλκιδικής'
+    },
+    'Χερσόνησος του Άθω': {
+        article: 'η',
+        latitude: 40.25,
+        longitude: 24.25,
+        description: 'Η ανατολική χερσόνησος της Χαλκιδικής, έδρα του Αγίου Όρους'
+    },
+    'Χερσόνησος Μαγνησίας': {
+        article: 'η',
+        latitude: 39.25,
+        longitude: 23.10,
+        description: 'Χερσόνησος στη Θεσσαλία με το Πήλιο'
+    },
+    'Χερσόνησος Αττικής': {
+        article: 'η',
+        latitude: 37.90,
+        longitude: 24.00,
+        description: 'Η χερσόνησος όπου βρίσκεται η Αθήνα'
+    },
+    'Χερσόνησος Αργολίδας': {
+        article: 'η',
+        latitude: 37.50,
+        longitude: 22.85,
+        description: 'Χερσόνησος στην ανατολική Πελοπόννησο'
+    },
+    'Χερσόνησος Μάνης': {
+        article: 'η',
+        latitude: 36.75,
+        longitude: 22.40,
+        description: 'Η νότια χερσόνησος της Πελοποννήσου κάτω από τον Ταΰγετο'
+    }
+};
+
+const gulfs = {
+    'Θερμαϊκός Κόλπος': {
+        article: 'ο',
+        latitude: 40.40,
+        longitude: 22.90,
+        description: 'Κόλπος στον οποίο βρίσκεται η Θεσσαλονίκη'
+    },
+    'Λακωνικός Κόλπος': {
+        article: 'ο',
+        latitude: 36.70,
+        longitude: 22.70,
+        description: 'Κόλπος μεταξύ Μάνης και Ακρωτηρίου Μαλέα'
+    },
+    'Αμβρακικός Κόλπος': {
+        article: 'ο',
+        latitude: 39.00,
+        longitude: 20.85,
+        description: 'Κλειστός κόλπος στην Ήπειρο, σημαντικός υγρότοπος'
+    },
+    'Σαρωνικός Κόλπος': {
+        article: 'ο',
+        latitude: 37.75,
+        longitude: 23.50,
+        description: 'Κόλπος νότια της Αττικής με τον Πειραιά'
+    },
+    'Πατραϊκός Κόλπος': {
+        article: 'ο',
+        latitude: 38.30,
+        longitude: 21.70,
+        description: 'Κόλπος στην είσοδο του Κορινθιακού'
+    },
+    'Κορινθιακός Κόλπος': {
+        article: 'ο',
+        latitude: 38.30,
+        longitude: 22.50,
+        description: 'Κόλπος που χωρίζει την Πελοπόννησο από τη Στερεά Ελλάδα'
+    },
+    'Κόλπος Καβάλας': {
+        article: 'ο',
+        latitude: 40.90,
+        longitude: 24.40,
+        description: 'Κόλπος στη βόρεια Ελλάδα'
+    },
+    'Στρυμονικός Κόλπος': {
+        article: 'ο',
+        latitude: 40.75,
+        longitude: 23.90,
+        description: 'Κόλπος στις εκβολές του ποταμού Στρυμόνα'
+    },
+    'Παγασητικός Κόλπος': {
+        article: 'ο',
+        latitude: 39.20,
+        longitude: 23.00,
+        description: 'Κόλπος στη Θεσσαλία με το Βόλο'
+    }
+};
+
+const capes = {
+    'Ακρωτήριο Μαλέας': {
+        article: 'το',
+        latitude: 36.43,
+        longitude: 23.20,
+        description: 'Το νοτιοανατολικό άκρο της Πελοποννήσου'
+    },
+    'Ακρωτήριο Άκτιο': {
+        article: 'το',
+        latitude: 38.95,
+        longitude: 20.77,
+        description: 'Ακρωτήριο στην είσοδο του Αμβρακικού κόλπου'
+    },
+    'Ακρωτήριο Ταίναρο': {
+        article: 'το',
+        latitude: 36.39,
+        longitude: 22.48,
+        description: 'Το νοτιότερο άκρο της ηπειρωτικής Ελλάδας'
+    },
+    'Ακρωτήριο Καφηρέας': {
+        article: 'το',
+        latitude: 38.16,
+        longitude: 24.60,
+        description: 'Το νότιο άκρο της Εύβοιας'
+    },
+    'Ακρωτήριο Σούνιο': {
+        article: 'το',
+        latitude: 37.65,
+        longitude: 24.03,
+        description: 'Ακρωτήριο με τον ναό του Ποσειδώνα'
+    },
+    'Ακρωτήριο Δρέπανο': {
+        article: 'το',
+        latitude: 38.33,
+        longitude: 21.73,
+        description: 'Ακρωτήριο κοντά στην Πάτρα'
+    },
+    'Ακρωτήριο Ακρίτας': {
+        article: 'το',
+        latitude: 36.72,
+        longitude: 21.88,
+        description: 'Ακρωτήριο στη δυτική Μεσσηνία'
+    }
+};
+
+const straits = {
+    'Πορθμός Ευρίπου': {
+        article: 'ο',
+        latitude: 38.46,
+        longitude: 23.59,
+        description: 'Στενό που χωρίζει την Εύβοια από τη Βοιωτία'
+    },
+    'Πορθμός Πρέβεζας': {
+        article: 'ο',
+        latitude: 38.95,
+        longitude: 20.75,
+        description: 'Στενό στην είσοδο του Αμβρακικού κόλπου'
+    },
+    'Πορθμός Ρίου-Αντιρρίου': {
+        article: 'ο',
+        latitude: 38.32,
+        longitude: 21.77,
+        description: 'Στενό που συνδέει τον Κορινθιακό με τον Πατραϊκό κόλπο'
+    }
+};
+
+const isthmus = {
+    'Ισθμός Κορίνθου': {
+        article: 'ο',
+        latitude: 37.94,
+        longitude: 22.99,
+        description: 'Στενή λωρίδα γης που συνδέει την Πελοπόννησο με τη Στερεά Ελλάδα'
+    }
+};
+
 const locations = {
     mountains,
     lakes,
-    rivers
+    rivers,
+    peninsulas,
+    gulfs,
+    capes,
+    straits,
+    isthmus
 };

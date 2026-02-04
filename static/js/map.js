@@ -3,6 +3,11 @@ let map;
 let mountain_group;
 let lake_group;
 let river_group;
+let peninsula_group;
+let gulf_group;
+let cape_group;
+let strait_group;
+let isthmus_group;
 
 // Initialize map
 function initMap() {
@@ -32,6 +37,11 @@ function initMap() {
     mountain_group = L.featureGroup().addTo(map);
     lake_group = L.featureGroup().addTo(map);
     river_group = L.featureGroup().addTo(map);
+    peninsula_group = L.featureGroup().addTo(map);
+    gulf_group = L.featureGroup().addTo(map);
+    cape_group = L.featureGroup().addTo(map);
+    strait_group = L.featureGroup().addTo(map);
+    isthmus_group = L.featureGroup().addTo(map);
 
     // Initial markers
     addMarkers();
@@ -50,13 +60,23 @@ function createMarker(name, coords, locationData, category, isAnswered = false) 
     } else if (correctAnswersNeeded[name] === 1) {
         markerColor = 'orange'; // Answered once correctly
     } else {
-        markerColor = category === 'mountains' ? 'darkred' : 
-                      category === 'lakes' ? 'blue' : 'cadetblue';
+        markerColor = category === 'mountains' ? 'darkred' :
+                      category === 'lakes' ? 'blue' :
+                      category === 'rivers' ? 'cadetblue' :
+                      category === 'peninsulas' ? 'purple' :
+                      category === 'gulfs' ? 'darkblue' :
+                      category === 'capes' ? 'red' :
+                      category === 'straits' ? 'lightblue' : 'gray';
     }
 
     let icon = L.AwesomeMarkers.icon({
-        icon: category === 'mountains' ? 'mountain' : 
-              category === 'lakes' ? 'water' : 'tint',
+        icon: category === 'mountains' ? 'mountain' :
+              category === 'lakes' ? 'water' :
+              category === 'rivers' ? 'tint' :
+              category === 'peninsulas' ? 'map-marked-alt' :
+              category === 'gulfs' ? 'water' :
+              category === 'capes' ? 'location-arrow' :
+              category === 'straits' ? 'arrows-alt-h' : 'link',
         markerColor: markerColor,
         prefix: 'fa',
         iconColor: 'white'
@@ -67,7 +87,12 @@ function createMarker(name, coords, locationData, category, isAnswered = false) 
     const categoryInfo = {
         mountains: { emoji: '🏔️', name: 'Βουνό', color: '#e74c3c' },
         lakes: { emoji: '💧', name: 'Λίμνη', color: '#3498db' },
-        rivers: { emoji: '🌊', name: 'Ποταμός', color: '#2980b9' }
+        rivers: { emoji: '🌊', name: 'Ποταμός', color: '#2980b9' },
+        peninsulas: { emoji: '🗺️', name: 'Χερσόνησος', color: '#9b59b6' },
+        gulfs: { emoji: '🌊', name: 'Κόλπος', color: '#1a5276' },
+        capes: { emoji: '📍', name: 'Ακρωτήριο', color: '#c0392b' },
+        straits: { emoji: '↔️', name: 'Πορθμός', color: '#5dade2' },
+        isthmus: { emoji: '🔗', name: 'Ισθμός', color: '#7f8c8d' }
     };
 
     const { emoji, name: categoryName, color } = categoryInfo[category];
@@ -121,6 +146,11 @@ function addMarkers() {
     mountain_group.clearLayers();
     lake_group.clearLayers();
     river_group.clearLayers();
+    peninsula_group.clearLayers();
+    gulf_group.clearLayers();
+    cape_group.clearLayers();
+    strait_group.clearLayers();
+    isthmus_group.clearLayers();
 
     // Only show markers for current category in quiz mode
     if (gameMode === 'quiz' && currentCategory) {
@@ -139,6 +169,26 @@ function addMarkers() {
             case 'rivers':
                 data = rivers;
                 group = river_group;
+                break;
+            case 'peninsulas':
+                data = peninsulas;
+                group = peninsula_group;
+                break;
+            case 'gulfs':
+                data = gulfs;
+                group = gulf_group;
+                break;
+            case 'capes':
+                data = capes;
+                group = cape_group;
+                break;
+            case 'straits':
+                data = straits;
+                group = strait_group;
+                break;
+            case 'isthmus':
+                data = isthmus;
+                group = isthmus_group;
                 break;
         }
 
@@ -193,6 +243,61 @@ function addMarkers() {
             { color: '#2980b9', weight: 3, opacity: 0.8 }
         ).addTo(river_group);
     });
+
+    // Add peninsula markers in explore mode
+    Object.entries(peninsulas).forEach(([name, peninsula]) => {
+        const marker = createMarker(
+            name,
+            [peninsula.latitude, peninsula.longitude],
+            peninsula,
+            'peninsulas'
+        );
+        marker.addTo(peninsula_group);
+    });
+
+    // Add gulf markers in explore mode
+    Object.entries(gulfs).forEach(([name, gulf]) => {
+        const marker = createMarker(
+            name,
+            [gulf.latitude, gulf.longitude],
+            gulf,
+            'gulfs'
+        );
+        marker.addTo(gulf_group);
+    });
+
+    // Add cape markers in explore mode
+    Object.entries(capes).forEach(([name, cape]) => {
+        const marker = createMarker(
+            name,
+            [cape.latitude, cape.longitude],
+            cape,
+            'capes'
+        );
+        marker.addTo(cape_group);
+    });
+
+    // Add strait markers in explore mode
+    Object.entries(straits).forEach(([name, strait]) => {
+        const marker = createMarker(
+            name,
+            [strait.latitude, strait.longitude],
+            strait,
+            'straits'
+        );
+        marker.addTo(strait_group);
+    });
+
+    // Add isthmus markers in explore mode
+    Object.entries(isthmus).forEach(([name, isth]) => {
+        const marker = createMarker(
+            name,
+            [isth.latitude, isth.longitude],
+            isth,
+            'isthmus'
+        );
+        marker.addTo(isthmus_group);
+    });
 }
 
 // Show location on map with animation
@@ -217,7 +322,12 @@ function showLocationOnMap(location, category) {
     const categoryInfo = {
         mountains: { emoji: '🏔️', name: 'Βουνό', color: '#e74c3c' },
         lakes: { emoji: '💧', name: 'Λίμνη', color: '#3498db' },
-        rivers: { emoji: '🌊', name: 'Ποταμός', color: '#2980b9' }
+        rivers: { emoji: '🌊', name: 'Ποταμός', color: '#2980b9' },
+        peninsulas: { emoji: '🗺️', name: 'Χερσόνησος', color: '#9b59b6' },
+        gulfs: { emoji: '🌊', name: 'Κόλπος', color: '#1a5276' },
+        capes: { emoji: '📍', name: 'Ακρωτήριο', color: '#c0392b' },
+        straits: { emoji: '↔️', name: 'Πορθμός', color: '#5dade2' },
+        isthmus: { emoji: '🔗', name: 'Ισθμός', color: '#7f8c8d' }
     };
 
     const { emoji, name: categoryName, color } = categoryInfo[category];
