@@ -10,17 +10,21 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Interactive Greece Geography Learning" />
     <link rel="manifest" href="site.webmanifest" />
+    <!-- Google Fonts: Cinzel (ancient Greek feel) + Libre Baskerville (refined body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="static/css/styles.css" />
 </head>
 <body>
   <div id="map"></div>
-    
+
   <div class="title-container">
       <button id="close-quiz" class="close-button" onclick="startExploreMode()" style="display: none;">✕</button>
       <div id="main-content">
@@ -34,6 +38,13 @@
 
   <div id="category-selection" class="category-selection" style="display: none;">
       <h2 class="category-question">Τι θέλεις να μάθεις;</h2>
+
+      <!-- ⭐ Special section: Top 10 islands (appears first, prominently) -->
+      <div class="category-group top-islands-group">
+          <h3>⭐ Τα 10 Μεγαλύτερα Νησιά</h3>
+          <button onclick="showIslandPresentation()" class="presentation-btn">📖 Μάθε τα 10 Νησιά</button>
+          <button onclick="startQuiz('topIslands')" class="top-islands-btn">🏆 Κουίζ 10 Νησιά</button>
+      </div>
 
       <div class="category-group">
           <h3>Χερσαία</h3>
@@ -53,6 +64,15 @@
           <button onclick="startQuiz('capes')">📍 Ακρωτήρια</button>
           <button onclick="startQuiz('straits')">↔️ Πορθμοί</button>
           <button onclick="startQuiz('isthmus')">🔗 Ισθμός</button>
+      </div>
+
+      <div class="category-group">
+          <h3>🏝️ Νησιά</h3>
+          <button onclick="startQuiz('cyclades')">🔵 Κυκλάδες</button>
+          <button onclick="startQuiz('dodecanese')">🔵 Δωδεκάνησα</button>
+          <button onclick="startQuiz('easternAegean')">🔵 Νησιά Αν. Αιγαίου</button>
+          <button onclick="startQuiz('sporades')">🔵 Σποράδες</button>
+          <button onclick="startQuiz('ionian')">🟣 Επτάνησα</button>
       </div>
   </div>
 
@@ -110,16 +130,104 @@
                   <span class="toggle-label">🔗 Ισθμός</span>
               </label>
           </div>
+          <div class="filter-group">
+              <h4>🏝️ Νησιά</h4>
+              <label class="filter-toggle">
+                  <input type="checkbox" checked onchange="toggleCategory('cyclades')" id="toggle-cyclades">
+                  <span class="toggle-label">🔵 Κυκλάδες</span>
+              </label>
+              <label class="filter-toggle">
+                  <input type="checkbox" checked onchange="toggleCategory('dodecanese')" id="toggle-dodecanese">
+                  <span class="toggle-label">🔵 Δωδεκάνησα</span>
+              </label>
+              <label class="filter-toggle">
+                  <input type="checkbox" checked onchange="toggleCategory('easternAegean')" id="toggle-easternAegean">
+                  <span class="toggle-label">🔵 Νησιά Αν. Αιγαίου</span>
+              </label>
+              <label class="filter-toggle">
+                  <input type="checkbox" checked onchange="toggleCategory('sporades')" id="toggle-sporades">
+                  <span class="toggle-label">🔵 Σποράδες</span>
+              </label>
+              <label class="filter-toggle">
+                  <input type="checkbox" checked onchange="toggleCategory('ionian')" id="toggle-ionian">
+                  <span class="toggle-label">🟣 Επτάνησα</span>
+              </label>
+              <label class="filter-toggle">
+                  <input type="checkbox" checked onchange="toggleCategory('topIslands')" id="toggle-topIslands">
+                  <span class="toggle-label">🏆 Top 10 Νησιά</span>
+              </label>
+          </div>
       </div>
   </div>
-  
+
+  <!-- ═══════════════════════════════════════════════════════
+       ISLAND PRESENTATION OVERLAY
+       Mediterranean Grandeur design
+       Fonts: Cinzel + Libre Baskerville
+  ═══════════════════════════════════════════════════════ -->
+  <div id="island-presentation" role="dialog" aria-modal="true" aria-label="Παρουσίαση 10 Μεγαλύτερων Νησιών">
+
+      <!-- Giant watermark rank number -->
+      <div class="isl-rank-bg" id="isl-rank-bg" aria-hidden="true">01</div>
+
+      <!-- Top bar -->
+      <span class="isl-counter" id="isl-counter">1 / 10</span>
+      <button class="isl-close-btn" onclick="closeIslandPresentation()" aria-label="Κλείσιμο">✕</button>
+
+      <!-- Main content card -->
+      <div class="isl-card anim-fade" id="isl-card">
+          <span class="isl-number" id="isl-number"># 1</span>
+          <span class="isl-emoji" id="isl-emoji" aria-hidden="true">🏛️</span>
+          <h1 class="isl-name" id="isl-name">Κρήτη</h1>
+
+          <div class="isl-stats">
+              <div class="isl-stat">
+                  <div class="isl-stat-value" id="isl-area">8.336 km²</div>
+                  <div class="isl-stat-label">Έκταση</div>
+              </div>
+              <div class="isl-stat">
+                  <div class="isl-stat-value" id="isl-region">Περιφέρεια Κρήτης</div>
+                  <div class="isl-stat-label">Περιοχή</div>
+              </div>
+          </div>
+
+          <p class="isl-description" id="isl-description"></p>
+
+          <div class="isl-highlights" id="isl-highlights"></div>
+
+          <div class="isl-fact-box">
+              <span class="isl-fact-icon" aria-hidden="true">💡</span>
+              <span class="isl-fact-text" id="isl-fact-text"></span>
+          </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="isl-navigation" aria-label="Πλοήγηση νησιών">
+          <button class="isl-nav-btn" onclick="prevIsland()" aria-label="Προηγούμενο νησί">&#8249;</button>
+          <div class="isl-dots" id="isl-dots" role="tablist"></div>
+          <button class="isl-nav-btn isl-autoplay-btn" id="isl-autoplay-btn" onclick="toggleIslandAutoplay()" aria-label="Αυτόματη αναπαραγωγή">&#9654;</button>
+          <button class="isl-nav-btn" onclick="nextIsland()" aria-label="Επόμενο νησί">&#8250;</button>
+      </nav>
+
+      <!-- Progress bar -->
+      <div class="isl-progress" aria-hidden="true">
+          <div class="isl-progress-bar" id="isl-progress-bar"></div>
+      </div>
+
+      <!-- Keyboard hint -->
+      <span class="isl-keyboard-hint" aria-hidden="true">← → πλήκτρα &nbsp;|&nbsp; ESC κλείσιμο</span>
+
+      <div class="isl-wave-bar" aria-hidden="true"></div>
+  </div>
+
       <!-- Leaflet JS -->
       <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
-      
+
       <!-- Custom JS -->
       <script src="static/js/locations.js"></script>
       <script src="static/js/map.js"></script>
       <script src="static/js/game.js"></script>
+      <script src="static/js/island-presentation.js"></script>
   </body>
   </html>
